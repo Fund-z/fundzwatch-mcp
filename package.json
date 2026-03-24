@@ -1,0 +1,42 @@
+{
+  "name": "@fundzwatch/mcp-server",
+  "version": "1.0.0",
+  "description": "MCP server for FundzWatch.ai — Real-time business event intelligence for AI agents",
+  "main": "dist/index.js",
+  "bin": {
+    "fundzwatch-mcp": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc && node -e \"const fs=require('fs');const f='dist/index.js';const c=fs.readFileSync(f,'utf8');if(!c.startsWith('#!')){fs.writeFileSync(f,'#!/usr/bin/env node\\n'+c);}\" && chmod +x dist/index.js",
+    "dev": "ts-node src/index.ts",
+    "prepublishOnly": "npm run build"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "fundzwatch",
+    "business-events",
+    "ai-agents",
+    "lead-generation",
+    "funding-events",
+    "sales-intelligence"
+  ],
+  "author": "Fundz Inc.",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fundz/fundzwatch-mcp"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.12.0",
+    "zod": "^3.25.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "@types/node": "^22.0.0",
+    "ts-node": "^10.9.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
