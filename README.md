@@ -100,9 +100,9 @@ Built by [Fundz](https://fundz.net), tracking 50M+ business events since 2017.
 
 ## Tutorials
 
-- [Build an AI SDR Agent with CrewAI + FundzWatch](https://github.com/Fund-z/fundzwatch-python/tree/main/tutorials)
-- [Real-Time Funding Alerts with LangChain + FundzWatch](https://github.com/Fund-z/fundzwatch-python/tree/main/tutorials)
-- [Turn Claude into Your Business Intelligence Analyst with MCP](https://github.com/Fund-z/fundzwatch-python/tree/main/tutorials)
+- [Build an AI SDR Agent with CrewAI + FundzWatch](https://github.com/Fund-z/fundzwatch-python/blob/main/tutorials/build-ai-sdr-crewai.md)
+- [Real-Time Funding Alerts with LangChain + FundzWatch](https://github.com/Fund-z/fundzwatch-python/blob/main/tutorials/langchain-funding-alerts.md)
+- [Turn Claude into Your Business Intelligence Analyst with MCP](https://github.com/Fund-z/fundzwatch-python/blob/main/tutorials/mcp-claude-business-intelligence.md)
 
 ## License
 
