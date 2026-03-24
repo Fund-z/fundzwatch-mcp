@@ -31,7 +31,7 @@ async function apiRequest(
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "User-Agent": "fundzwatch-mcp/1.0.0",
+      "User-Agent": "fundzwatch-mcp/1.0.1",
     },
   };
 
@@ -62,7 +62,7 @@ function textResult(text: string) {
 // ─── Server Setup ───────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: "fundzwatch", version: "1.0.0" },
+  { name: "fundzwatch", version: "1.0.1" },
   { capabilities: { tools: {} } }
 );
 

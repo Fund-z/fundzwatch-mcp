@@ -1,5 +1,9 @@
 # FundzWatch MCP Server
 
+[![npm version](https://img.shields.io/npm/v/@fundzwatch/mcp-server.svg)](https://www.npmjs.com/package/@fundzwatch/mcp-server)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![Node](https://img.shields.io/node/v/@fundzwatch/mcp-server.svg)](https://www.npmjs.com/package/@fundzwatch/mcp-server)
+
 Real-time business event intelligence for AI agents via [Model Context Protocol](https://modelcontextprotocol.io).
 
 Get AI-scored sales leads, funding rounds, acquisitions, executive hires, and market intelligence directly in Claude, Cursor, Windsurf, or any MCP-compatible client.
@@ -12,7 +16,11 @@ Sign up at [fundzwatch.ai/onboarding](https://fundzwatch.ai/onboarding) (no cred
 
 ### 2. Add to Claude Desktop
 
-Edit your Claude Desktop config (`~/Library/Application Support/Claude/claude_desktop_config.json`):
+Edit your Claude Desktop config:
+
+- **macOS:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
+- **Linux:** `~/.config/Claude/claude_desktop_config.json`
 
 ```json
 {
