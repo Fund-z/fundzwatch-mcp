@@ -4,6 +4,12 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 [![Node](https://img.shields.io/node/v/@fundzwatch/mcp-server.svg)](https://www.npmjs.com/package/@fundzwatch/mcp-server)
 
+### Listed on
+
+[![npm](https://img.shields.io/badge/npm-@fundzwatch/mcp--server-red?logo=npm)](https://www.npmjs.com/package/@fundzwatch/mcp-server)
+[![Cline Marketplace](https://img.shields.io/badge/Cline_Marketplace-submitted-yellow)](https://cline.bot)
+[![awesome-mcp-servers](https://img.shields.io/badge/awesome--mcp--servers-PR_pending-orange)](https://github.com/punkpeye/awesome-mcp-servers)
+
 Real-time business event intelligence for AI agents via [Model Context Protocol](https://modelcontextprotocol.io).
 
 Get AI-scored sales leads, funding rounds, acquisitions, executive hires, and market intelligence directly in Claude, Cursor, Windsurf, or any MCP-compatible client.
@@ -91,6 +97,12 @@ Add to your MCP settings:
 - **Market Briefs**: AI-generated daily strategic intelligence briefings
 
 Built by [Fundz](https://fundz.net), tracking 50M+ business events since 2017.
+
+## Tutorials
+
+- [Build an AI SDR Agent with CrewAI + FundzWatch](https://github.com/Fund-z/fundzwatch-python/tree/main/tutorials)
+- [Real-Time Funding Alerts with LangChain + FundzWatch](https://github.com/Fund-z/fundzwatch-python/tree/main/tutorials)
+- [Turn Claude into Your Business Intelligence Analyst with MCP](https://github.com/Fund-z/fundzwatch-python/tree/main/tutorials)
 
 ## License
 
