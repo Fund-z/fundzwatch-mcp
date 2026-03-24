@@ -1,6 +1,6 @@
 {
   "name": "@fundzwatch/mcp-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for FundzWatch.ai — Real-time business event intelligence for AI agents",
   "main": "dist/index.js",
   "bin": {
