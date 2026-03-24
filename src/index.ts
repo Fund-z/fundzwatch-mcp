@@ -5,7 +5,7 @@ import {
   ListToolsRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 
-const API_BASE = "https://api.fundz.net/api/v1/watch";
+const API_BASE = "https://api.fundz.net/v1/watch";
 
 function getApiKey(): string {
   const key = process.env.FUNDZWATCH_API_KEY;
