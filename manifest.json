@@ -1,0 +1,118 @@
+{
+  "manifest_version": "0.2",
+  "name": "fundzwatch-mcp",
+  "display_name": "FundzWatch",
+  "version": "1.0.2",
+  "description": "Real-time business event intelligence for AI agents — AI-scored leads, funding events, market pulse, and watchlists from FundzWatch.ai",
+  "long_description": "FundzWatch gives AI agents real-time access to verified business events: funding rounds, executive moves, acquisitions, and AI-scored leads matched to your ideal customer profile. Manage watchlists and pull daily market briefs. Get a free API key (no credit card) at https://fundzwatch.ai/onboarding.",
+  "author": {
+    "name": "Fundz Inc.",
+    "email": "john@fundz.net",
+    "url": "https://fundzwatch.ai"
+  },
+  "homepage": "https://fundzwatch.ai",
+  "documentation": "https://fundzwatch.ai/docs",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Fund-z/fundzwatch-mcp"
+  },
+  "license": "MIT",
+  "keywords": [
+    "business-events",
+    "funding",
+    "lead-generation",
+    "sales-intelligence",
+    "market-intelligence"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {
+        "FUNDZWATCH_API_KEY": "${user_config.api_key}"
+      }
+    }
+  },
+  "user_config": {
+    "api_key": {
+      "type": "string",
+      "title": "FundzWatch API Key",
+      "description": "Your FundzWatch API key. Get a free key (no credit card) at https://fundzwatch.ai/onboarding",
+      "sensitive": true,
+      "required": true
+    }
+  },
+  "tools": [
+    {
+      "name": "get_scored_leads",
+      "description": "AI-scored sales leads based on your ICP with buyer intent, buying stage, and recommended outreach strategy",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "min_score": { "type": "number", "description": "Minimum buyer intent score (0-100). Default: 0" },
+          "max_results": { "type": "number", "description": "Max leads to return (1-50). Default: 25" },
+          "buying_stages": { "type": "array", "items": { "type": "string" }, "description": "Filter by buying stage: 'Active Evaluation', 'Decision', 'Research', 'Awareness'" },
+          "industries": { "type": "array", "items": { "type": "string" }, "description": "Filter by industry (e.g., ['SaaS', 'HealthTech', 'FinTech'])" }
+        }
+      }
+    },
+    {
+      "name": "get_events",
+      "description": "Real-time business events: funding rounds, acquisitions, executive hires, government contracts, product launches",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "types": { "type": "string", "description": "Comma-separated: funding, acquisition, hiring, contract, product_launch. Default: all" },
+          "days": { "type": "number", "description": "Look back days (1-90). Default: 7" },
+          "limit": { "type": "number", "description": "Max events (1-200). Default: 50" },
+          "industries": { "type": "string", "description": "Comma-separated industries" },
+          "locations": { "type": "string", "description": "Comma-separated locations" }
+        }
+      }
+    },
+    {
+      "name": "get_market_pulse",
+      "description": "Real-time market activity overview: funding totals, acquisitions, exec moves for the past 7 and 30 days",
+      "inputSchema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "get_market_brief",
+      "description": "Today's AI-generated strategic intelligence brief on market movements, patterns, and opportunities",
+      "inputSchema": { "type": "object", "properties": {} }
+    },
+    {
+      "name": "manage_watchlist",
+      "description": "Add, remove, or list companies on your watchlist; tracked companies generate alerts on new events",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "action": { "type": "string", "enum": ["list", "add", "remove"], "description": "Action: 'list' to view, 'add' to track, 'remove' to untrack" },
+          "domains": { "type": "array", "items": { "type": "string" }, "description": "Company domains for add/remove (e.g., ['stripe.com', 'github.com'])" }
+        },
+        "required": ["action"]
+      }
+    },
+    {
+      "name": "get_watchlist_events",
+      "description": "Recent events for companies on your watchlist: funding, acquisitions, exec hires, contracts",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "days": { "type": "number", "description": "Look back days (1-90). Default: 7" },
+          "types": { "type": "string", "description": "Comma-separated event types" }
+        }
+      }
+    },
+    {
+      "name": "get_usage",
+      "description": "Check your FundzWatch API usage: calls made, limits, current tier",
+      "inputSchema": { "type": "object", "properties": {} }
+    }
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "linux", "win32"],
+    "runtimes": { "node": ">=18" }
+  }
+}
