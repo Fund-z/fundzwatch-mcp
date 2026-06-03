@@ -8,7 +8,8 @@
 
 [![npm](https://img.shields.io/badge/npm-@fundzwatch/mcp--server-red?logo=npm)](https://www.npmjs.com/package/@fundzwatch/mcp-server)
 [![Cline Marketplace](https://img.shields.io/badge/Cline_Marketplace-submitted-yellow)](https://cline.bot)
-[![awesome-mcp-servers](https://img.shields.io/badge/awesome--mcp--servers-PR_pending-orange)](https://github.com/punkpeye/awesome-mcp-servers)
+[![awesome-mcp-servers](https://img.shields.io/badge/awesome--mcp--servers-listed-brightgreen)](https://github.com/punkpeye/awesome-mcp-servers)
+[![Glama](https://img.shields.io/badge/Glama-claimed-brightgreen)](https://glama.ai/mcp/servers/Fund-z/fundzwatch-mcp)
 
 Real-time business event intelligence for AI agents via [Model Context Protocol](https://modelcontextprotocol.io).
 
@@ -93,10 +94,10 @@ Add to your MCP settings:
 
 - **AI-Scored Leads**: Companies scored daily against your ICP using Claude AI, with buyer intent signals, buying stage analysis, and outreach recommendations
 - **Event Feeds**: Real-time funding rounds, acquisitions, executive moves, government contracts, and product launches
-- **Predictive Intelligence**: ML models predicting which companies are likely to make moves (82% accuracy)
+- **Predictive Intelligence**: ML models that flag which companies are likely to make a move next
 - **Market Briefs**: AI-generated daily strategic intelligence briefings
 
-Built by [Fundz](https://fundz.net), tracking 50M+ business events since 2017.
+Built by [Fundz](https://fundz.net), millions of business events analyzed since 2017.
 
 ## Tutorials
 

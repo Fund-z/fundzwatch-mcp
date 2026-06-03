@@ -1,0 +1,23 @@
+# Smithery configuration — lets smithery.ai index, configure, and launch this
+# MCP server. https://smithery.ai/docs/build/project-config
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    required:
+      - fundzwatchApiKey
+    properties:
+      fundzwatchApiKey:
+        type: string
+        title: FundzWatch API Key
+        description: >-
+          Your FundzWatch API key. Get a free key (no credit card) at
+          https://fundzwatch.ai/onboarding
+  commandFunction: |-
+    (config) => ({
+      command: 'npx',
+      args: ['-y', '@fundzwatch/mcp-server'],
+      env: { FUNDZWATCH_API_KEY: config.fundzwatchApiKey }
+    })
+  exampleConfig:
+    fundzwatchApiKey: fundz_test_your_key_here
