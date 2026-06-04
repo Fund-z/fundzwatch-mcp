@@ -6,6 +6,11 @@ import {
 } from "@modelcontextprotocol/sdk/types.js";
 
 const API_BASE = "https://api.fundz.net/v1/watch";
+// Answer-section feeds (Renewal Radar, Stacked Borrowers, Benefit Plans,
+// Funded & Hiring, Lender Directory) are public teaser endpoints — no key
+// needed. Anonymous callers get the top 5 of each scored cohort plus the
+// full cohort size; the complete feeds live in the Fundz app (Strategic).
+const PUBLIC_API_BASE = "https://api.fundz.net/v1";
 
 function getApiKey(): string {
   const key = process.env.FUNDZWATCH_API_KEY;
@@ -31,7 +36,7 @@ async function apiRequest(
     headers: {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
-      "User-Agent": "fundzwatch-mcp/1.0.1",
+      "User-Agent": "fundzwatch-mcp/1.1.0",
     },
   };
 
@@ -55,14 +60,54 @@ async function apiRequest(
   return response.json();
 }
 
+// Public (key-less) GET against the answer-section teaser endpoints.
+async function publicRequest(path: string, params?: Record<string, any>): Promise<any> {
+  const url = new URL(`${PUBLIC_API_BASE}${path}`);
+  if (params) {
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined && value !== null) url.searchParams.append(key, String(value));
+    });
+  }
+  const response = await fetch(url.toString(), {
+    headers: { "User-Agent": "fundzwatch-mcp/1.1.0" },
+  });
+  if (!response.ok) {
+    throw new Error(`API error ${response.status}: ${response.statusText}`);
+  }
+  return response.json();
+}
+
 function textResult(text: string) {
   return { content: [{ type: "text" as const, text }] };
+}
+
+// Shared formatter for the section feeds: rows differ per section, so print
+// whatever evidence fields are present, then the cohort size + upgrade path.
+function formatSectionFeed(
+  label: string,
+  rows: any[],
+  summary: any,
+  limited: boolean,
+  appUrl: string,
+  lineFor: (r: any) => string
+): string {
+  if (!rows.length) return `No companies in ${label} right now. The cohort refreshes daily.`;
+  const lines = rows.map((r: any, i: number) => {
+    const org = r.organization || {};
+    const loc = [org.city, org.state].filter(Boolean).join(", ");
+    return `${i + 1}. **${org.name}**${loc ? ` (${loc})` : ""} — Score ${Math.round(r.score)}${r.is_new ? " · NEW this week" : ""}\n   ${lineFor(r)}`;
+  });
+  let text = `${label} — ${summary.total} companies, ${summary.new_this_week} new this week (refreshed ${summary.last_refreshed_on}):\n\n${lines.join("\n")}`;
+  if (limited) {
+    text += `\n\nThis is the free preview (top ${rows.length} of ${summary.total}). The full scored feed with filters, contacts, and daily alerts is in the Fundz app (Strategic plan): ${appUrl}`;
+  }
+  return text;
 }
 
 // ─── Server Setup ───────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: "fundzwatch", version: "1.0.1" },
+  { name: "fundzwatch", version: "1.1.0" },
   { capabilities: { tools: {} } }
 );
 
@@ -163,6 +208,78 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       name: "get_usage",
       description: "Check your FundzWatch API usage: calls made, limits, current tier.",
       inputSchema: { type: "object" as const, properties: {} },
+    },
+    {
+      name: "get_funded_and_hiring",
+      description:
+        "Companies with a verified funding round in the last 12 months AND live hiring " +
+        "evidence (open ATS roles, executive hires, hiring signals) — the strongest buying " +
+        "window, score-ranked and refreshed daily. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Company name search" },
+          state: { type: "string", description: "2-letter US state filter (e.g. 'CA')" },
+        },
+      },
+    },
+    {
+      name: "get_refinancing_windows",
+      description:
+        "Companies whose active UCC-1 liens lapse within 12 months (Renewal Radar). " +
+        "UCC liens expire after 5 years — the incumbent lender must re-file or lose priority, " +
+        "so each approaching lapse is a refinancing window with a date on it. For lenders, " +
+        "MCA/ISO, and equipment finance. California coverage. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Company name search" },
+          state: { type: "string", description: "2-letter US state filter" },
+        },
+      },
+    },
+    {
+      name: "get_stacked_borrowers",
+      description:
+        "Companies with active secured debt (UCC-1) from 2+ distinct lenders and a filing in " +
+        "the last 24 months — proven appetite for layered financing; second-position and " +
+        "refi/consolidation targets. California coverage. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Company name search" },
+          state: { type: "string", description: "2-letter US state filter" },
+        },
+      },
+    },
+    {
+      name: "get_benefit_plans_in_play",
+      description:
+        "Recently funded companies (≤24 months) with a DOL Form 5500 benefit-plan filing on " +
+        "record: plan renewal timing, participant count vs current headcount ('outgrowing " +
+        "their plan'), and the incumbent insurance carrier from Schedule A. For benefits " +
+        "brokers, retirement-plan advisors, PEOs, HR-tech sellers. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Company name search" },
+          state: { type: "string", description: "2-letter US state filter" },
+        },
+      },
+    },
+    {
+      name: "get_lender_directory",
+      description:
+        "Who finances whom: directory of 8,600+ UCC secured parties (lenders) ranked by " +
+        "filing volume, with active-lien counts and lapsing-soon exposure per lender. " +
+        "California coverage. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Lender name search (e.g. 'Wells Fargo')" },
+          page: { type: "number", description: "Page (50/page). Default: 1" },
+        },
+      },
     },
   ],
 }));
@@ -318,6 +435,80 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
           `AI Score Calls: ${data.ai_score_calls_used} / ${data.limits.ai_score_calls_monthly}\n` +
           (data.last_api_call ? `Last API Call: ${data.last_api_call}` : "");
         return textResult(text);
+      }
+
+      case "get_funded_and_hiring": {
+        const data = await publicRequest("/funded_hiring", { q: (args as any).q, state: (args as any).state });
+        return textResult(formatSectionFeed(
+          "Funded & Hiring Now", data.funded_hiring || [], data.summary,
+          !!data.meta?.free_tier_limited, "https://app.fundz.net/funded-and-hiring",
+          (r) => {
+            const f = r.latest_funding || {};
+            const bits = [
+              f.series ? `${f.series} (${f.event_date})` : `Funded ${f.event_date || ""}`,
+              r.open_postings_90d ? `${r.open_postings_90d} open roles` : null,
+              r.exec_hires_90d ? `${r.exec_hires_90d} exec hires` : null,
+            ].filter(Boolean);
+            return bits.join(" · ");
+          }
+        ));
+      }
+
+      case "get_refinancing_windows": {
+        const data = await publicRequest("/renewal_radar", { q: (args as any).q, state: (args as any).state });
+        return textResult(formatSectionFeed(
+          "Renewal Radar (UCC refinancing windows)", data.renewal_radar || [], data.summary,
+          !!data.meta?.free_tier_limited, "https://app.fundz.net/lender-intelligence",
+          (r) => [
+            r.soonest_lapse_date ? `Lien lapses ${r.soonest_lapse_date}` : null,
+            r.top_lender ? `incumbent: ${r.top_lender}` : null,
+            r.active_liens ? `${r.active_liens} active liens` : null,
+            r.lender_count > 1 ? `${r.lender_count} lenders` : null,
+          ].filter(Boolean).join(" · ")
+        ));
+      }
+
+      case "get_stacked_borrowers": {
+        const data = await publicRequest("/stacked_borrowers", { q: (args as any).q, state: (args as any).state });
+        return textResult(formatSectionFeed(
+          "Stacked Borrowers", data.stacked_borrowers || [], data.summary,
+          !!data.meta?.free_tier_limited, "https://app.fundz.net/lender-intelligence",
+          (r) => [
+            r.lender_count ? `${r.lender_count} distinct lenders` : null,
+            r.active_liens ? `${r.active_liens} active liens` : null,
+            r.latest_lender ? `latest: ${r.latest_lender} (${r.latest_filing_date})` : null,
+            r.soonest_lapse_date ? `soonest lapse ${r.soonest_lapse_date}` : null,
+          ].filter(Boolean).join(" · ")
+        ));
+      }
+
+      case "get_benefit_plans_in_play": {
+        const data = await publicRequest("/benefit_plans", { q: (args as any).q, state: (args as any).state });
+        return textResult(formatSectionFeed(
+          "Benefit Plans in Play", data.benefit_plans || [], data.summary,
+          !!data.meta?.free_tier_limited, "https://app.fundz.net/companies",
+          (r) => [
+            r.next_renewal_on ? `plan renewal ${r.next_renewal_on}` : null,
+            r.top_carrier ? `incumbent: ${r.top_carrier}` : null,
+            r.participant_count ? `${r.participant_count} plan participants` : null,
+            r.employees ? `~${r.employees} employees now` : null,
+            r.latest_funding?.event_date ? `funded ${r.latest_funding.event_date}` : null,
+          ].filter(Boolean).join(" · ")
+        ));
+      }
+
+      case "get_lender_directory": {
+        const data = await publicRequest("/lenders", { q: (args as any).q, page: (args as any).page });
+        const lenders = data.lenders || [];
+        if (!lenders.length) return textResult("No lenders match that search.");
+        const lines = lenders.slice(0, 25).map((l: any, i: number) =>
+          `${i + 1}. **${l.name}** — ${l.filings} filings (${l.active_filings} active, ${l.lapsing_12mo} lapsing ≤12mo)` +
+          (l.latest_filing_date ? ` · latest ${l.latest_filing_date}` : "")
+        );
+        return textResult(
+          `Lender Directory — ${data.meta.total_count} secured parties (${data.meta.coverage}):\n\n${lines.join("\n")}\n\n` +
+          `Borrower lists per lender live in the Fundz app: https://app.fundz.net/lender-intelligence`
+        );
       }
 
       default:
