@@ -107,7 +107,7 @@ function formatSectionFeed(
 // ─── Server Setup ───────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: "fundzwatch", version: "1.2.0" },
+  { name: "fundzwatch", version: "1.2.1" },
   { capabilities: { tools: {} } }
 );
 
@@ -229,7 +229,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         "Companies whose active UCC-1 liens lapse within 12 months (Renewal Radar). " +
         "UCC liens expire after 5 years — the incumbent lender must re-file or lose priority, " +
         "so each approaching lapse is a refinancing window with a date on it. For lenders, " +
-        "MCA/ISO, and equipment finance. California coverage. No API key required.",
+        "MCA/ISO, and equipment finance. California + Colorado coverage (CO refreshed daily). No API key required.",
       inputSchema: {
         type: "object" as const,
         properties: {
@@ -243,7 +243,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description:
         "Companies with active secured debt (UCC-1) from 2+ distinct lenders and a filing in " +
         "the last 24 months — proven appetite for layered financing; second-position and " +
-        "refi/consolidation targets. California coverage. No API key required.",
+        "refi/consolidation targets. California + Colorado coverage (CO refreshed daily). No API key required.",
       inputSchema: {
         type: "object" as const,
         properties: {
@@ -272,7 +272,7 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
       description:
         "Who finances whom: directory of 8,600+ UCC secured parties (lenders) ranked by " +
         "filing volume, with active-lien counts and lapsing-soon exposure per lender. " +
-        "California coverage. No API key required.",
+        "California + Colorado coverage (CO refreshed daily). No API key required.",
       inputSchema: {
         type: "object" as const,
         properties: {
