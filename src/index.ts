@@ -107,7 +107,7 @@ function formatSectionFeed(
 // ─── Server Setup ───────────────────────────────────────────────────────
 
 const server = new Server(
-  { name: "fundzwatch", version: "1.1.0" },
+  { name: "fundzwatch", version: "1.2.0" },
   { capabilities: { tools: {} } }
 );
 
@@ -277,6 +277,38 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
         type: "object" as const,
         properties: {
           q: { type: "string", description: "Lender name search (e.g. 'Wells Fargo')" },
+          page: { type: "number", description: "Page (50/page). Default: 1" },
+        },
+      },
+    },
+    {
+      name: "get_money_in_motion",
+      description:
+        "Companies with an executive-move announcement in the last 180 days AND a verified " +
+        "funding round in the last 24 months — the wealth advisor's 'money in motion' moment: " +
+        "a new comp package (often equity), an old 401(k) to roll over, benefits about to be " +
+        "re-evaluated. Score-ranked, refreshed daily. For RIAs, wealth managers, retirement-plan " +
+        "advisors, executive-benefits sellers. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Company name search" },
+          state: { type: "string", description: "2-letter US state filter (e.g. 'CA')" },
+        },
+      },
+    },
+    {
+      name: "get_broker_directory",
+      description:
+        "Who broker-of-records whom: directory of 65,000+ benefits brokers from DOL Form 5500 " +
+        "Schedule A Part 1, ranked by filings carried, with sponsor counts and commission " +
+        "volume per broker. For carriers, broker M&A, benefits-tech sellers, and brokers " +
+        "scouting competitors. No API key required.",
+      inputSchema: {
+        type: "object" as const,
+        properties: {
+          q: { type: "string", description: "Broker name search (e.g. 'Lockton')" },
+          state: { type: "string", description: "2-letter US state filter" },
           page: { type: "number", description: "Page (50/page). Default: 1" },
         },
       },
@@ -486,7 +518,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         const data = await publicRequest("/benefit_plans", { q: (args as any).q, state: (args as any).state });
         return textResult(formatSectionFeed(
           "Benefit Plans in Play", data.benefit_plans || [], data.summary,
-          !!data.meta?.free_tier_limited, "https://app.fundz.net/companies",
+          !!data.meta?.free_tier_limited, "https://app.fundz.net/benefits-intelligence",
           (r) => [
             r.next_renewal_on ? `plan renewal ${r.next_renewal_on}` : null,
             r.top_carrier ? `incumbent: ${r.top_carrier}` : null,
@@ -508,6 +540,37 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
         return textResult(
           `Lender Directory — ${data.meta.total_count} secured parties (${data.meta.coverage}):\n\n${lines.join("\n")}\n\n` +
           `Borrower lists per lender live in the Fundz app: https://app.fundz.net/lender-intelligence`
+        );
+      }
+
+      case "get_money_in_motion": {
+        const data = await publicRequest("/money_in_motion", { q: (args as any).q, state: (args as any).state });
+        return textResult(formatSectionFeed(
+          "Money in Motion", data.money_in_motion || [], data.summary,
+          !!data.meta?.free_tier_limited, "https://app.fundz.net/benefits-intelligence",
+          (r) => [
+            r.latest_move_headline ? `${r.latest_move_headline} (${r.latest_move_on})` : null,
+            r.latest_funding?.event_date ? `funded ${r.latest_funding.event_date}` : null,
+            r.move_count_180d > 1 ? `${r.move_count_180d} exec moves ≤180d` : null,
+            r.has_pension_plan ? "retirement plan on record" : null,
+          ].filter(Boolean).join(" · ")
+        ));
+      }
+
+      case "get_broker_directory": {
+        const data = await publicRequest("/brokers", { q: (args as any).q, state: (args as any).state, page: (args as any).page });
+        const brokers = data.brokers || [];
+        if (!brokers.length) return textResult("No brokers match that search.");
+        const fmtUsd = (n: number) => (n >= 1_000_000 ? `$${(n / 1_000_000).toFixed(1)}M` : `$${Math.round(n / 1000)}K`);
+        const lines = brokers.slice(0, 25).map((b: any, i: number) =>
+          `${i + 1}. **${b.name}**${b.city ? ` (${b.city}, ${b.state})` : ""} — ${b.filings} filings, ` +
+          `${b.sponsors} sponsors` +
+          (b.commission_usd ? ` · ${fmtUsd(b.commission_usd)} commissions` : "") +
+          (b.latest_form_year ? ` · thru ${b.latest_form_year}` : "")
+        );
+        return textResult(
+          `Broker Directory — ${data.meta.total_count} brokers of record (${data.meta.coverage}):\n\n${lines.join("\n")}\n\n` +
+          `Client lists per broker live in the Fundz app: https://app.fundz.net/benefits-intelligence`
         );
       }
 

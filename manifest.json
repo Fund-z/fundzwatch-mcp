@@ -2,9 +2,9 @@
   "manifest_version": "0.2",
   "name": "fundzwatch-mcp",
   "display_name": "FundzWatch",
-  "version": "1.1.0",
-  "description": "Real-time business event intelligence for AI agents — AI-scored leads, funding events, refinancing windows (UCC), stacked borrowers, benefit-plan renewals, and watchlists from FundzWatch.ai",
-  "long_description": "FundzWatch gives AI agents real-time access to verified business events: funding rounds, executive moves, acquisitions, and AI-scored leads matched to your ideal customer profile. NEW: five no-key-required answer sections — Funded & Hiring Now, UCC Refinancing Windows (Renewal Radar), Stacked Borrowers, Benefit Plans in Play (Form 5500), and a who-finances-whom Lender Directory — cross-dataset cohorts no single-source lookup can reproduce, re-scored daily. Manage watchlists and pull daily market briefs. Get a free API key (no credit card) at https://fundzwatch.ai/onboarding.",
+  "version": "1.2.0",
+  "description": "Real-time business event intelligence for AI agents \u2014 AI-scored leads, funding events, refinancing windows (UCC), stacked borrowers, benefit-plan renewals, and watchlists from FundzWatch.ai",
+  "long_description": "FundzWatch gives AI agents real-time access to verified business events: funding rounds, executive moves, acquisitions, and AI-scored leads matched to your ideal customer profile. NEW: five no-key-required answer sections \u2014 Funded & Hiring Now, UCC Refinancing Windows (Renewal Radar), Stacked Borrowers, Benefit Plans in Play (Form 5500), and a who-finances-whom Lender Directory \u2014 cross-dataset cohorts no single-source lookup can reproduce, re-scored daily. Manage watchlists and pull daily market briefs. Get a free API key (no credit card) at https://fundzwatch.ai/onboarding.",
   "author": {
     "name": "Fundz Inc.",
     "email": "john@fundz.net",
@@ -178,7 +178,7 @@
     },
     {
       "name": "get_funded_and_hiring",
-      "description": "Companies funded in the last 12 months AND actively hiring (open roles, exec hires, hiring signals) — score-ranked daily. No API key required.",
+      "description": "Companies funded in the last 12 months AND actively hiring (open roles, exec hires, hiring signals) \u2014 score-ranked daily. No API key required.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -195,7 +195,7 @@
     },
     {
       "name": "get_refinancing_windows",
-      "description": "Companies whose active UCC-1 liens lapse within 12 months — each approaching lapse is a refinancing window with a date on it. For lenders, MCA/ISO, equipment finance. No API key required.",
+      "description": "Companies whose active UCC-1 liens lapse within 12 months \u2014 each approaching lapse is a refinancing window with a date on it. For lenders, MCA/ISO, equipment finance. No API key required.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -212,7 +212,7 @@
     },
     {
       "name": "get_stacked_borrowers",
-      "description": "Companies with active secured debt from 2+ distinct lenders (UCC) — second-position and consolidation targets. No API key required.",
+      "description": "Companies with active secured debt from 2+ distinct lenders (UCC) \u2014 second-position and consolidation targets. No API key required.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -229,7 +229,7 @@
     },
     {
       "name": "get_benefit_plans_in_play",
-      "description": "Recently funded companies with a Form 5500 benefit plan on record — renewal timing, headcount-vs-plan gap, incumbent carrier. No API key required.",
+      "description": "Recently funded companies with a Form 5500 benefit plan on record \u2014 renewal timing, headcount-vs-plan gap, incumbent carrier. No API key required.",
       "inputSchema": {
         "type": "object",
         "properties": {
@@ -257,6 +257,44 @@
           "page": {
             "type": "number",
             "description": "Page (50/page)"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_money_in_motion",
+      "description": "Companies with an executive-move announcement in the last 180 days AND a verified funding round in the last 24 months \u2014 the wealth advisor's 'money in motion' moment: a new comp package (often equity), an old 401(k) to roll over, benefits about to be re-evaluated. Score-ranked, refreshed daily. For RIAs, wealth managers, retirement-plan advisors, executive-benefits sellers. No API key required.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Company name search"
+          },
+          "state": {
+            "type": "string",
+            "description": "2-letter US state filter (e.g. 'CA')"
+          }
+        }
+      }
+    },
+    {
+      "name": "get_broker_directory",
+      "description": "Who broker-of-records whom: directory of 65,000+ benefits brokers from DOL Form 5500 Schedule A Part 1, ranked by filings carried, with sponsor counts and commission volume per broker. For carriers, broker M&A, benefits-tech sellers, and brokers scouting competitors. No API key required.",
+      "inputSchema": {
+        "type": "object",
+        "properties": {
+          "q": {
+            "type": "string",
+            "description": "Broker name search (e.g. 'Lockton')"
+          },
+          "state": {
+            "type": "string",
+            "description": "2-letter US state filter"
+          },
+          "page": {
+            "type": "number",
+            "description": "Page (50/page). Default: 1"
           }
         }
       }
