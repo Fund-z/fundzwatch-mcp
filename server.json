@@ -1,0 +1,30 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.fund-z/fundzwatch",
+  "description": "Real-time business-event intelligence for AI agents: AI-scored leads, funding & exec moves, UCC refinancing windows, and Form 5500 benefit-plan signals. 7 tools need no key.",
+  "version": "1.2.1",
+  "repository": {
+    "url": "https://github.com/Fund-z/fundzwatch-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://fundzwatch.ai",
+  "packages": [
+    {
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@fundzwatch/mcp-server",
+      "version": "1.2.1",
+      "transport": {
+        "type": "stdio"
+      },
+      "environmentVariables": [
+        {
+          "name": "FUNDZWATCH_API_KEY",
+          "description": "FundzWatch API key (optional — 7 tools work without it). Free key at https://fundzwatch.ai/onboarding",
+          "isRequired": false,
+          "isSecret": true
+        }
+      ]
+    }
+  ]
+}

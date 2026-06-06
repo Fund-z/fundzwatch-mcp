@@ -1,11 +1,21 @@
 {
   "name": "@fundzwatch/mcp-server",
   "version": "1.2.1",
-  "description": "MCP server for FundzWatch.ai \u2014 Real-time business event intelligence for AI agents",
+  "mcpName": "io.github.fund-z/fundzwatch",
+  "description": "MCP server for FundzWatch.ai \u2014 real-time business-event intelligence for AI agents: 14 tools (7 key-less) covering AI-scored leads, funding & exec moves, UCC refinancing windows, and Form 5500 benefit-plan signals",
   "main": "dist/index.js",
   "bin": {
     "fundzwatch-mcp": "./dist/index.js"
   },
+  "files": [
+    "dist",
+    "manifest.json",
+    "server.json",
+    "smithery.yaml",
+    "glama.json",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "tsc && node -e \"const fs=require('fs');const f='dist/index.js';const c=fs.readFileSync(f,'utf8');if(!c.startsWith('#!')){fs.writeFileSync(f,'#!/usr/bin/env node\\n'+c);}\" && chmod +x dist/index.js",
     "dev": "ts-node src/index.ts",
@@ -25,7 +35,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fundz/fundzwatch-mcp"
+    "url": "https://github.com/Fund-z/fundzwatch-mcp"
+  },
+  "homepage": "https://fundzwatch.ai",
+  "bugs": {
+    "url": "https://github.com/Fund-z/fundzwatch-mcp/issues"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.12.0",
