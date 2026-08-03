@@ -12,7 +12,7 @@ startCommand:
         title: FundzWatch API Key
         description: >-
           Your FundzWatch API key. Get a free key (no credit card) at
-          https://fundzwatch.ai/onboarding
+          https://www.fundz.net/api-trial
   commandFunction: |-
     (config) => ({
       command: 'npx',

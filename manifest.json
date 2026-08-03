@@ -4,7 +4,7 @@
   "display_name": "FundzWatch",
   "version": "1.2.1",
   "description": "Real-time business event intelligence for AI agents \u2014 AI-scored leads, funding events, refinancing windows (UCC), stacked borrowers, benefit-plan renewals, and watchlists from FundzWatch.ai",
-  "long_description": "FundzWatch gives AI agents real-time access to verified business events: funding rounds, executive moves, acquisitions, and AI-scored leads matched to your ideal customer profile. NEW: five no-key-required answer sections \u2014 Funded & Hiring Now, UCC Refinancing Windows (Renewal Radar), Stacked Borrowers, Benefit Plans in Play (Form 5500), and a who-finances-whom Lender Directory \u2014 cross-dataset cohorts no single-source lookup can reproduce, re-scored daily. Manage watchlists and pull daily market briefs. Get a free API key (no credit card) at https://fundzwatch.ai/onboarding.",
+  "long_description": "FundzWatch gives AI agents real-time access to verified business events: funding rounds, executive moves, acquisitions, and AI-scored leads matched to your ideal customer profile. NEW: five no-key-required answer sections \u2014 Funded & Hiring Now, UCC Refinancing Windows (Renewal Radar), Stacked Borrowers, Benefit Plans in Play (Form 5500), and a who-finances-whom Lender Directory \u2014 cross-dataset cohorts no single-source lookup can reproduce, re-scored daily. Manage watchlists and pull daily market briefs. Get a free API key (no credit card) at https://www.fundz.net/api-trial.",
   "author": {
     "name": "Fundz Inc.",
     "email": "john@fundz.net",
@@ -41,7 +41,7 @@
     "api_key": {
       "type": "string",
       "title": "FundzWatch API Key",
-      "description": "Your FundzWatch API key. Get a free key (no credit card) at https://fundzwatch.ai/onboarding",
+      "description": "Your FundzWatch API key. Get a free key (no credit card) at https://www.fundz.net/api-trial",
       "sensitive": true,
       "required": true
     }
