@@ -43,7 +43,7 @@ Config file locations for Claude Desktop:
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux:** `~/.config/Claude/claude_desktop_config.json`
 
-> The `env` block is **optional**. Omit it entirely and the 7 key-less tools still return live data. Get a free key (no credit card) at **[fundzwatch.ai/onboarding](https://fundzwatch.ai/onboarding)** to add AI-scored leads, watchlists, and full event feeds.
+> The `env` block is **optional**. Omit it entirely and the 7 key-less tools still return live data. Get a free key (no credit card) at **[fundz.net/api-trial](https://www.fundz.net/api-trial)** to add AI-scored leads, watchlists, and full event feeds.
 
 For Cursor / Windsurf / Cline, use the same block under their MCP settings (the inner `"fundzwatch": { ... }` object).
 
@@ -100,7 +100,7 @@ Live teasers off the Fundz answer sections (top results + cohort size, re-scored
 - **Cross-dataset cohorts** — funded-and-hiring, money-in-motion, refinancing windows, benefit-plans-in-play.
 - **Who-finances-whom** — lender (8,600+) and broker (65,000+) directories from UCC and Form 5500.
 
-Free API key (no credit card): **[fundzwatch.ai/onboarding](https://fundzwatch.ai/onboarding)**.
+Free API key (no credit card): **[fundz.net/api-trial](https://www.fundz.net/api-trial)**.
 
 The full scored feeds, ICP filters, contact data, and daily alerts live in the Fundz app — **[app.fundz.net](https://app.fundz.net)**, Strategic plan ($149/mo).
 
