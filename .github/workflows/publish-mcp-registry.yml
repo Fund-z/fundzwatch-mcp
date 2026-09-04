@@ -1,0 +1,41 @@
+# Publishes server.json to the official MCP registry (registry.modelcontextprotocol.io).
+#
+# ⛔ THIS EXISTS BECAUSE A LOCAL `mcp-publisher login github` CANNOT PUBLISH THE ORG NAMESPACE.
+# The registry grants `io.github.<org>/*` only to org Owners, and it determines that by calling
+# GET /user/memberships/orgs. That call needs the "MCP Registry Login (Prod)" GitHub App to be
+# installed on the org — and that app is PRIVATE and cannot be installed. So an interactive
+# login on a laptop only ever yields `io.github.persaples/*` and the publish 403s.
+#
+# GitHub Actions OIDC sidesteps it entirely: the token minted here carries this repository's
+# identity (Fund-z/fundzwatch-mcp), which the registry accepts as proof of the Fund-z namespace.
+# It is also strictly better than a manual publish — a release now updates the registry itself
+# instead of drifting, which is exactly how the record got stuck at 1.2.2 while npm moved to 1.2.4.
+name: Publish to MCP Registry
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      # ⛔ id-token: write is what makes OIDC work. Without it `login github-oidc` has no token
+      # to present and falls back to nothing.
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install mcp-publisher
+        run: |
+          curl -sL "https://github.com/modelcontextprotocol/registry/releases/download/v1.8.1/mcp-publisher_linux_amd64.tar.gz" \
+            | tar xz mcp-publisher
+          chmod +x mcp-publisher
+
+      - name: Authenticate via GitHub OIDC
+        run: ./mcp-publisher login github-oidc
+
+      - name: Publish
+        run: ./mcp-publisher publish
