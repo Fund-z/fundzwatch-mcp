@@ -1,6 +1,6 @@
 {
   "name": "@fundzwatch/mcp-server",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "mcpName": "io.github.Fund-z/fundzwatch",
   "description": "MCP server for FundzWatch.ai — real-time business-event intelligence for AI agents: 14 tools, 7 needing no key and no signup, covering funding & exec moves, funded-and-hiring cohorts, UCC refinancing windows, and Form 5500 benefit-plan signals",
   "main": "dist/index.js",

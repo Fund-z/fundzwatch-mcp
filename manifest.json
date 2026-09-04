@@ -2,7 +2,7 @@
   "manifest_version": "0.2",
   "name": "fundzwatch-mcp",
   "display_name": "FundzWatch",
-  "version": "1.2.1",
+  "version": "1.2.4",
   "description": "Real-time business event intelligence for AI agents — AI-scored leads, funding events, refinancing windows (UCC), stacked borrowers, benefit-plan renewals, and watchlists from FundzWatch.ai",
   "long_description": "FundzWatch gives AI agents real-time access to verified business events: funding rounds, executive moves, acquisitions, and AI-scored leads matched to your ideal customer profile. SEVEN of the 14 tools need no key, no signup and no account — Funded & Hiring Now, UCC Refinancing Windows (Renewal Radar), Stacked Borrowers, Benefit Plans in Play (Form 5500), Money in Motion, and the who-finances-whom Lender and Broker Directories — cross-dataset cohorts no single-source lookup can reproduce, re-scored daily, every row carrying the Fundz page that supports it. AI-scored leads, watchlists and full event feeds require a Fundz Pro or Strategic seat: https://www.fundz.net/pricing.",
   "author": {
