@@ -18,6 +18,19 @@ Give Claude, Cursor, Windsurf, Cline, or any MCP client live access to verified 
 
 **7 of the 14 tools work with no API key, no signup, and no account** — point your agent at the server and it returns live, daily-rescored "answer section" data on the first run, each row carrying the Fundz page that supports it. The other 7 (AI-scored leads, watchlists, full event feeds) need a Fundz Pro or Strategic seat.
 
+## Hosted assistants (ChatGPT, Claude.ai, Gemini, Grok) — no install
+
+This package is **stdio**: your client spawns it as a local subprocess, which hosted assistants
+cannot do. For those, point the client at the **remote endpoint** instead — no key, no signup,
+no account:
+
+```
+https://mcp.fundz.net
+```
+
+Add it as a custom connector / MCP server URL. It speaks Streamable HTTP (protocol `2025-06-18`,
+negotiating back to `2024-11-05`) and serves the same seven key-less tools.
+
 ## Quick Start
 
 ### Option A — `npx` (Claude Desktop, Cursor, Windsurf, Cline)
