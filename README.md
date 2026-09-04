@@ -12,11 +12,11 @@
 [![awesome-mcp-servers](https://img.shields.io/badge/awesome--mcp--servers-listed-brightgreen)](https://github.com/punkpeye/awesome-mcp-servers)
 [![Glama](https://img.shields.io/badge/Glama-claimed-brightgreen)](https://glama.ai/mcp/servers/Fund-z/fundzwatch-mcp)
 
-The free AI-agent gateway to **[FundzWatch](https://fundzwatch.ai)** answer sections — real-time business-event intelligence via the [Model Context Protocol](https://modelcontextprotocol.io).
+The key-less AI-agent gateway to **[FundzWatch](https://fundzwatch.ai)** answer sections — real-time business-event intelligence via the [Model Context Protocol](https://modelcontextprotocol.io).
 
 Give Claude, Cursor, Windsurf, Cline, or any MCP client live access to verified funding rounds, executive moves, UCC refinancing windows, Form 5500 benefit-plan signals, and AI-scored leads matched to your ICP.
 
-**7 of the 14 tools work with no API key** — point your agent at the server and it returns live, daily-rescored "answer section" data on the first run. Add a free key to unlock AI-scored leads, watchlists, and the full event feeds.
+**7 of the 14 tools work with no API key, no signup, and no account** — point your agent at the server and it returns live, daily-rescored "answer section" data on the first run, each row carrying the Fundz page that supports it. The other 7 (AI-scored leads, watchlists, full event feeds) need a Fundz Pro or Strategic seat.
 
 ## Quick Start
 
@@ -43,7 +43,7 @@ Config file locations for Claude Desktop:
 - **Windows:** `%APPDATA%\Claude\claude_desktop_config.json`
 - **Linux:** `~/.config/Claude/claude_desktop_config.json`
 
-> The `env` block is **optional**. Omit it entirely and the 7 key-less tools still return live data. Get a free key (no credit card) at **[fundz.net/api-trial](https://www.fundz.net/api-trial)** to add AI-scored leads, watchlists, and full event feeds.
+> The `env` block is **optional**. Omit it entirely and the 7 key-less tools still return live data. The keyed tools (AI-scored leads, watchlists, full event feeds) require a Fundz **Pro or Strategic** seat — see **[fundz.net/pricing](https://www.fundz.net/pricing)**.
 
 For Cursor / Windsurf / Cline, use the same block under their MCP settings (the inner `"fundzwatch": { ... }` object).
 
@@ -96,11 +96,11 @@ Live teasers off the Fundz answer sections (top results + cohort size, re-scored
 [FundzWatch.ai](https://fundzwatch.ai) is the AI-agent front door to Fundz's verified business-event intelligence — funding rounds, acquisitions, executive moves, government contracts, hiring signals, UCC liens, and DOL Form 5500 benefit-plan filings, fused into cross-dataset "answer sections" that no single-source lookup reproduces. Everything is re-scored daily.
 
 - **Key-less answer sections** — point an agent at the server and get live data on day one, no signup.
-- **AI-scored leads** — companies scored against your ICP with buyer-intent and outreach guidance (free key).
+- **AI-scored leads** — companies scored against your ICP with buyer-intent and outreach guidance (Pro or Strategic seat).
 - **Cross-dataset cohorts** — funded-and-hiring, money-in-motion, refinancing windows, benefit-plans-in-play.
 - **Who-finances-whom** — lender (8,600+) and broker (65,000+) directories from UCC and Form 5500.
 
-Free API key (no credit card): **[fundz.net/api-trial](https://www.fundz.net/api-trial)**.
+The 7 key-less tools need nothing at all. Keyed tools require a Pro or Strategic seat: **[fundz.net/pricing](https://www.fundz.net/pricing)**.
 
 The full scored feeds, ICP filters, contact data, and daily alerts live in the Fundz app — **[app.fundz.net](https://app.fundz.net)**, Strategic plan ($149/mo).
 

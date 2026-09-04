@@ -4,15 +4,18 @@ startCommand:
   type: stdio
   configSchema:
     type: object
-    required:
-      - fundzwatchApiKey
+    # ⛔ NOT required. 7 of the 14 tools are key-less, so marking the key required made
+    # Smithery block install on a field most users never need — and the page it pointed at
+    # issues a trial key that 402s since the free tier closed on 2026-08-26.
+    required: []
     properties:
       fundzwatchApiKey:
         type: string
-        title: FundzWatch API Key
+        title: FundzWatch API Key (optional)
         description: >-
-          Your FundzWatch API key. Get a free key (no credit card) at
-          https://www.fundz.net/api-trial
+          Optional. 7 of the 14 tools work with no key and no signup. AI-scored leads,
+          watchlists and full event feeds require a Fundz Pro or Strategic seat:
+          https://www.fundz.net/pricing
   commandFunction: |-
     (config) => ({
       command: 'npx',

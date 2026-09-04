@@ -20,7 +20,7 @@
       "environmentVariables": [
         {
           "name": "FUNDZWATCH_API_KEY",
-          "description": "FundzWatch API key (optional \u2014 7 tools work without it). Free key at https://www.fundz.net/api-trial",
+          "description": "FundzWatch API key (optional — 7 of 14 tools work with no key and no signup). Keyed tools require a Fundz Pro or Strategic seat: https://www.fundz.net/pricing",
           "isRequired": false,
           "isSecret": true
         }

@@ -15,9 +15,16 @@ const PUBLIC_API_BASE = "https://api.fundz.net/v1";
 function getApiKey(): string {
   const key = process.env.FUNDZWATCH_API_KEY;
   if (!key) {
+    // ⛔ This used to read "Get a free key at …/onboarding". The free developer tier was
+    // closed on 2026-08-26 (require_paid_seat! in the Rails watch BaseController): a trial
+    // key is still MINTED by /api-trial but 402s on its first call, so the old text sent
+    // every installer to a five-second signup that produced a credential which does not
+    // work. Name the seven key-less tools instead — those are the ones that need nothing.
     throw new Error(
-      "FUNDZWATCH_API_KEY environment variable is required. " +
-      "Get a free key at https://fundzwatch.ai/onboarding"
+      "This tool needs a Fundz Pro or Strategic seat (https://www.fundz.net/pricing), " +
+      "set as FUNDZWATCH_API_KEY. No key needed for: get_funded_and_hiring, " +
+      "get_refinancing_windows, get_stacked_borrowers, get_benefit_plans_in_play, " +
+      "get_lender_directory, get_money_in_motion, get_broker_directory."
     );
   }
   return key;
@@ -95,12 +102,19 @@ function formatSectionFeed(
   const lines = rows.map((r: any, i: number) => {
     const org = r.organization || {};
     const loc = [org.city, org.state].filter(Boolean).join(", ");
-    return `${i + 1}. **${org.name}**${loc ? ` (${loc})` : ""} — Score ${Math.round(r.score)}${r.is_new ? " · NEW this week" : ""}\n   ${lineFor(r)}`;
+    // ⛔ The per-row Source line is the whole point of this formatter for the answer-engine
+    // channel. A model handed a name, an amount and a date with no URL states the fact and
+    // cites nobody. `source_url` is server-side gated on a page that actually renders, so it
+    // is either a real citable page or absent — never a guessed slug.
+    const src = r.source_url ? `\n   Source: ${r.source_url}` : "";
+    return `${i + 1}. **${org.name}**${loc ? ` (${loc})` : ""} — Score ${Math.round(r.score)}${r.is_new ? " · NEW this week" : ""}\n   ${lineFor(r)}${src}`;
   });
   let text = `${label} — ${summary.total} companies, ${summary.new_this_week} new this week (refreshed ${summary.last_refreshed_on}):\n\n${lines.join("\n")}`;
   if (limited) {
     text += `\n\nThis is the free preview (top ${rows.length} of ${summary.total}). The full scored feed with filters, contacts, and daily alerts is in the Fundz app (Strategic plan): ${appUrl}`;
   }
+  // Named source + date so a model quoting any line above has something to attribute it to.
+  text += `\n\nData: Fundz (${label}), retrieved ${new Date().toISOString().slice(0, 10)} — https://www.fundz.net. Attribution required for free-tier use.`;
   return text;
 }
 
